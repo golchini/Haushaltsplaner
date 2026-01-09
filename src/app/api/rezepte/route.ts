@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
     const kategorie = searchParams.get('kategorie');
     const search = searchParams.get('search')?.toLowerCase();
 
-    let rezepte = getAll<Rezept>('rezepte');
+    let rezepte = await getAll<Rezept>('rezepte');
 
     if (kategorie) {
       rezepte = rezepte.filter(r => r.kategorie === kategorie);
@@ -34,6 +34,11 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    const userId = request.headers.get('x-user-id');
+    if (!userId) {
+      return NextResponse.json({ error: 'User ID header missing' }, { status: 401 });
+    }
+
     const body = await request.json();
     const { name, kategorie, portionen, zubereitungszeit, zutaten, anleitung, tags } = body;
 
@@ -41,7 +46,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Name, zutaten, and anleitung required' }, { status: 400 });
     }
 
-    const rezept = create<Rezept>('rezepte', {
+    const rezept = await create<Rezept>('rezepte', {
+      user_id: userId,
       name,
       kategorie: kategorie || 'sonstiges',
       portionen: portionen || 4,
@@ -61,6 +67,11 @@ export async function POST(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
+    const userId = request.headers.get('x-user-id');
+    if (!userId) {
+      return NextResponse.json({ error: 'User ID header missing' }, { status: 401 });
+    }
+
     const body = await request.json();
     const { id, ...updates } = body;
 
@@ -68,9 +79,9 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: 'Rezept ID required' }, { status: 400 });
     }
 
-    const rezept = update<Rezept>('rezepte', id, updates);
+    const rezept = await update<Rezept>('rezepte', id, updates, userId);
     if (!rezept) {
-      return NextResponse.json({ error: 'Rezept not found' }, { status: 404 });
+      return NextResponse.json({ error: 'Rezept not found or unauthorized' }, { status: 404 });
     }
 
     return NextResponse.json(rezept);
@@ -82,6 +93,11 @@ export async function PATCH(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
+    const userId = request.headers.get('x-user-id');
+    if (!userId) {
+      return NextResponse.json({ error: 'User ID header missing' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
@@ -89,9 +105,9 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'Rezept ID required' }, { status: 400 });
     }
 
-    const success = remove('rezepte', parseInt(id));
+    const success = await remove('rezepte', parseInt(id), userId);
     if (!success) {
-      return NextResponse.json({ error: 'Rezept not found' }, { status: 404 });
+      return NextResponse.json({ error: 'Rezept not found or unauthorized' }, { status: 404 });
     }
 
     return NextResponse.json({ success: true });

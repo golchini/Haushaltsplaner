@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
     const upcoming = searchParams.get('upcoming') === 'true';
     const today = getToday();
 
-    let allTermine = getAll<Termin>('termine');
+    let allTermine = await getAll<Termin>('termine');
 
     if (upcoming) {
       allTermine = allTermine.filter(t => t.date >= today && !t.done);
@@ -31,6 +31,11 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    const userId = request.headers.get('x-user-id');
+    if (!userId) {
+      return NextResponse.json({ error: 'User ID header missing' }, { status: 401 });
+    }
+
     const body = await request.json();
     const { title, date, time, location, notes } = body;
 
@@ -38,7 +43,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Title and date required' }, { status: 400 });
     }
 
-    const termin = create<Termin>('termine', {
+    const termin = await create<Termin>('termine', {
+      user_id: userId,
       title,
       date,
       time: time || null,
@@ -57,6 +63,11 @@ export async function POST(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
+    const userId = request.headers.get('x-user-id');
+    if (!userId) {
+      return NextResponse.json({ error: 'User ID header missing' }, { status: 401 });
+    }
+
     const body = await request.json();
     const { id, ...updates } = body;
 
@@ -64,9 +75,9 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: 'Termin ID required' }, { status: 400 });
     }
 
-    const termin = update<Termin>('termine', id, updates);
+    const termin = await update<Termin>('termine', id, updates, userId);
     if (!termin) {
-      return NextResponse.json({ error: 'Termin not found' }, { status: 404 });
+      return NextResponse.json({ error: 'Termin not found or unauthorized' }, { status: 404 });
     }
 
     return NextResponse.json(termin);
@@ -78,6 +89,11 @@ export async function PATCH(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
+    const userId = request.headers.get('x-user-id');
+    if (!userId) {
+      return NextResponse.json({ error: 'User ID header missing' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
@@ -85,9 +101,9 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'Termin ID required' }, { status: 400 });
     }
 
-    const success = remove('termine', parseInt(id));
+    const success = await remove('termine', parseInt(id), userId);
     if (!success) {
-      return NextResponse.json({ error: 'Termin not found' }, { status: 404 });
+      return NextResponse.json({ error: 'Termin not found or unauthorized' }, { status: 404 });
     }
 
     return NextResponse.json({ success: true });

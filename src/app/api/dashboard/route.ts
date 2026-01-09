@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getAll, query, getToday } from '@/lib/db';
+import { getAll, getToday } from '@/lib/db';
 import type { Task, Termin, Mahlzeit, DashboardData } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
@@ -9,13 +9,13 @@ export async function GET() {
     const today = getToday();
 
     // Get today's tasks
-    const allTasks = getAll<Task>('tasks');
+    const allTasks = await getAll<Task>('tasks');
     const tasks = allTasks
       .filter(t => t.date === today)
       .sort((a, b) => (a.scheduled_time || '').localeCompare(b.scheduled_time || ''));
 
     // Get today's termine
-    const allTermine = getAll<Termin>('termine');
+    const allTermine = await getAll<Termin>('termine');
     const termine_heute = allTermine
       .filter(t => t.date === today)
       .sort((a, b) => (a.time || '').localeCompare(b.time || ''));
@@ -28,7 +28,7 @@ export async function GET() {
       .sort((a, b) => a.date.localeCompare(b.date));
 
     // Get today's meals
-    const allMahlzeiten = getAll<Mahlzeit>('mahlzeiten');
+    const allMahlzeiten = await getAll<Mahlzeit>('mahlzeiten');
     const mahlzeiten = allMahlzeiten.filter(m => m.date === today);
 
     // Calculate progress

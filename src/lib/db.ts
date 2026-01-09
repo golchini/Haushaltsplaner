@@ -1,85 +1,90 @@
-import fs from 'fs';
-import path from 'path';
+import { createClient } from '@supabase/supabase-js';
 
-const DATA_DIR = path.join(process.cwd(), 'data');
+// Supabase Client Initialisierung (Service Role Key umgeht RLS)
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-// Ensure data directory exists
-if (!fs.existsSync(DATA_DIR)) {
-  fs.mkdirSync(DATA_DIR, { recursive: true });
+export const supabase = createClient(supabaseUrl, supabaseKey);
+
+// Hilfsfunktion: Wir exportieren ein leeres initDb für deine Skripte
+export const initDb = async () => {
+  console.log('Supabase Datenbank-Modus aktiv.');
+};
+
+// --- ERSATZ FÜR DEINE GENERIC CRUD OPERATIONS ---
+
+export async function getAll<T>(storeName: string): Promise<T[]> {
+  const { data, error } = await supabase.from(storeName).select('*');
+  if (error) throw error;
+  return data as T[];
 }
 
-interface JsonStore<T> {
-  items: T[];
-  lastId: number;
+export async function getById<T extends { id: number }>(storeName: string, id: number): Promise<T | undefined> {
+  const { data, error } = await supabase.from(storeName).select('*').eq('id', id).single();
+  if (error) return undefined;
+  return data as T;
 }
 
-function getFilePath(name: string): string {
-  return path.join(DATA_DIR, `${name}.json`);
+export async function create<T extends { id?: number }>(storeName: string, item: Omit<T, 'id'> & { user_id: string }): Promise<T> {
+  const { data, error } = await supabase.from(storeName).insert([item]).select();
+  if (error) throw error;
+  return data[0] as T;
 }
 
-function readStore<T>(name: string): JsonStore<T> {
-  const filePath = getFilePath(name);
-  if (!fs.existsSync(filePath)) {
-    return { items: [], lastId: 0 };
+export async function update<T extends { id: number }>(storeName: string, id: number, updates: Partial<T>, userId?: string): Promise<T | undefined> {
+  let query = supabase.from(storeName).update(updates).eq('id', id);
+  if (userId) {
+    query = query.eq('user_id', userId);
   }
-  const content = fs.readFileSync(filePath, 'utf-8');
-  return JSON.parse(content);
+  const { data, error } = await query.select();
+  if (error) throw error;
+  return data[0] as T;
 }
 
-function writeStore<T>(name: string, store: JsonStore<T>): void {
-  const filePath = getFilePath(name);
-  fs.writeFileSync(filePath, JSON.stringify(store, null, 2));
+export async function remove(storeName: string, id: number, userId?: string): Promise<boolean> {
+  let query = supabase.from(storeName).delete().eq('id', id);
+  if (userId) {
+    query = query.eq('user_id', userId);
+  }
+  const { error } = await query;
+  return !error;
 }
 
-// Generic CRUD operations
-export function getAll<T>(storeName: string): T[] {
-  return readStore<T>(storeName).items;
+export async function clearDone(storeName: string, userId?: string): Promise<boolean> {
+    let query = supabase.from(storeName).delete().eq('done', true);
+    if (userId) {
+        query = query.eq('user_id', userId);
+    }
+    const { error } = await query;
+    return !error;
 }
 
-export function getById<T extends { id: number }>(storeName: string, id: number): T | undefined {
-  const store = readStore<T>(storeName);
-  return store.items.find(item => item.id === id);
+export async function query<T>(tableName: string, options: {
+    where?: Record<string, any>;
+    select?: string;
+    orderBy?: { column: string; ascending: boolean };
+}): Promise<T[]> {
+    let query = supabase.from(tableName).select(options.select || '*');
+
+    if (options.where) {
+        query = query.match(options.where);
+    }
+
+    if (options.orderBy) {
+        query = query.order(options.orderBy.column, { ascending: options.orderBy.ascending });
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+        console.error(`Error querying ${tableName}:`, error);
+        throw new Error(`Failed to query ${tableName}`);
+    }
+
+    return data as T[];
 }
 
-export function create<T extends { id?: number }>(storeName: string, item: Omit<T, 'id'>): T {
-  const store = readStore<T>(storeName);
-  const newId = store.lastId + 1;
-  const newItem = { ...item, id: newId } as T;
-  store.items.push(newItem);
-  store.lastId = newId;
-  writeStore(storeName, store);
-  return newItem;
-}
-
-export function update<T extends { id: number }>(storeName: string, id: number, updates: Partial<T>): T | undefined {
-  const store = readStore<T>(storeName);
-  const index = store.items.findIndex(item => item.id === id);
-  if (index === -1) return undefined;
-  store.items[index] = { ...store.items[index], ...updates };
-  writeStore(storeName, store);
-  return store.items[index];
-}
-
-export function remove(storeName: string, id: number): boolean {
-  const store = readStore<{ id: number }>(storeName);
-  const index = store.items.findIndex(item => item.id === id);
-  if (index === -1) return false;
-  store.items.splice(index, 1);
-  writeStore(storeName, store);
-  return true;
-}
-
-export function query<T>(storeName: string, predicate: (item: T) => boolean): T[] {
-  return readStore<T>(storeName).items.filter(predicate);
-}
-
-export function clearDone(storeName: string): void {
-  const store = readStore<{ id: number; done: boolean }>(storeName);
-  store.items = store.items.filter(item => !item.done);
-  writeStore(storeName, store);
-}
-
-// Helper functions
+// Hilfsfunktionen (behalten wir bei, da sie keine Dateien brauchen)
 export function getToday(): string {
   return new Date().toISOString().split('T')[0];
 }

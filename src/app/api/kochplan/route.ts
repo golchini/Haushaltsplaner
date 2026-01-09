@@ -23,8 +23,8 @@ export async function GET(request: NextRequest) {
       return d.toISOString().split('T')[0];
     });
 
-    const allMahlzeiten = getAll<Mahlzeit>('mahlzeiten');
-    const allRezepte = getAll<Rezept>('rezepte');
+    const allMahlzeiten = await getAll<Mahlzeit>('mahlzeiten');
+    const allRezepte = await getAll<Rezept>('rezepte');
 
     // Get mahlzeiten for the week, enriched with rezept data
     const mahlzeiten: MahlzeitWithRezept[] = allMahlzeiten
@@ -55,6 +55,11 @@ export async function GET(request: NextRequest) {
 // Add a meal
 export async function POST(request: NextRequest) {
   try {
+    const userId = request.headers.get('x-user-id');
+    if (!userId) {
+      return NextResponse.json({ error: 'User ID header missing' }, { status: 401 });
+    }
+
     const body = await request.json();
     const { date, typ, beschreibung, rezept_id } = body;
 
@@ -62,11 +67,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Date and typ required' }, { status: 400 });
     }
 
-    const mahlzeit = create<Mahlzeit>('mahlzeiten', {
+    const mahlzeit = await create<Mahlzeit>('mahlzeiten', {
+      user_id: userId,
       date,
       typ,
       beschreibung: beschreibung || null,
       rezept_id: rezept_id || null,
+      done: false,
     });
 
     return NextResponse.json(mahlzeit, { status: 201 });
@@ -79,6 +86,11 @@ export async function POST(request: NextRequest) {
 // Update a meal
 export async function PATCH(request: NextRequest) {
   try {
+    const userId = request.headers.get('x-user-id');
+    if (!userId) {
+      return NextResponse.json({ error: 'User ID header missing' }, { status: 401 });
+    }
+
     const body = await request.json();
     const { id, ...updates } = body;
 
@@ -86,9 +98,9 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: 'Meal ID required' }, { status: 400 });
     }
 
-    const mahlzeit = update<Mahlzeit>('mahlzeiten', id, updates);
+    const mahlzeit = await update<Mahlzeit>('mahlzeiten', id, { ...updates, user_id: userId });
     if (!mahlzeit) {
-      return NextResponse.json({ error: 'Meal not found' }, { status: 404 });
+      return NextResponse.json({ error: 'Meal not found or unauthorized' }, { status: 404 });
     }
 
     return NextResponse.json(mahlzeit);
@@ -101,6 +113,11 @@ export async function PATCH(request: NextRequest) {
 // Delete a meal
 export async function DELETE(request: NextRequest) {
   try {
+    const userId = request.headers.get('x-user-id');
+    if (!userId) {
+      return NextResponse.json({ error: 'User ID header missing' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
@@ -108,9 +125,9 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'Meal ID required' }, { status: 400 });
     }
 
-    const success = remove('mahlzeiten', parseInt(id));
+    const success = await remove('mahlzeiten', parseInt(id), userId);
     if (!success) {
-      return NextResponse.json({ error: 'Meal not found' }, { status: 404 });
+      return NextResponse.json({ error: 'Meal not found or unauthorized' }, { status: 404 });
     }
 
     return NextResponse.json({ success: true });

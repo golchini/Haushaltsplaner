@@ -94,7 +94,21 @@ export default function Dashboard() {
     );
   }
 
-  const heute = format(new Date(data.datum), 'EEEE, d. MMMM', { locale: de });
+  const getFormattedDate = (date: string, formatString: string) => {
+    try {
+      if (!date || isNaN(new Date(date).getTime())) {
+        console.error('Invalid date value:', date);
+        return 'Ungültiges Datum';
+      }
+      return format(new Date(date), formatString, { locale: de });
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return 'Fehlerhaftes Datum';
+    }
+  };
+
+  const heute = getFormattedDate(data.datum, 'EEEE, d. MMMM');
+
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-4 max-w-xl mx-auto">
@@ -130,21 +144,23 @@ export default function Dashboard() {
       </div>
 
       {/* Progress */}
-      <div className="bg-gray-800 rounded-lg p-4 mb-6">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-sm text-gray-400">Fortschritt</span>
-          <span className="text-sm">
-            {data.fortschritt.erledigt} / {data.fortschritt.total}
-          </span>
+      {data.fortschritt && (
+        <div className="bg-gray-800 rounded-lg p-4 mb-6">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm text-gray-400">Fortschritt</span>
+            <span className="text-sm">
+              {data.fortschritt.erledigt} / {data.fortschritt.total}
+            </span>
+          </div>
+          <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-green-500 transition-all"
+              style={{ width: `${data.fortschritt.prozent}%` }}
+            />
+          </div>
+          <p className="text-xs text-gray-500 mt-1">{data.fortschritt.prozent}% erledigt</p>
         </div>
-        <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
-          <div
-            className="h-full bg-green-500 transition-all"
-            style={{ width: `${data.fortschritt.prozent}%` }}
-          />
-        </div>
-        <p className="text-xs text-gray-500 mt-1">{data.fortschritt.prozent}% erledigt</p>
-      </div>
+      )}
 
       {/* Tasks */}
       <div className="bg-gray-800 rounded-lg p-4 mb-6">
@@ -242,7 +258,7 @@ export default function Dashboard() {
               <div key={t.id} className="flex items-center gap-2 text-sm">
                 <span className="w-2 h-2 rounded-full bg-gray-500" />
                 <span className="text-gray-400">
-                  {format(new Date(t.date), 'd.M.')}
+                  {getFormattedDate(t.date, 'd.M.')}
                 </span>
                 <span className="truncate">{t.title}</span>
               </div>

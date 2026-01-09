@@ -19,9 +19,9 @@ export async function POST(request: NextRequest) {
       return d.toISOString().split('T')[0];
     });
 
-    const allMahlzeiten = getAll<Mahlzeit>('mahlzeiten');
-    const allRezepte = getAll<Rezept>('rezepte');
-    const existingItems = getAll<EinkaufsItem>('einkaufsliste');
+    const allMahlzeiten = await getAll<Mahlzeit>('mahlzeiten');
+    const allRezepte = await getAll<Rezept>('rezepte');
+    const existingItems = await getAll<EinkaufsItem>('einkaufsliste');
 
     // Get mahlzeiten for the week with rezept_id
     const mahlzeiten = allMahlzeiten.filter(m => dates.includes(m.date) && m.rezept_id);
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Add to shopping list (skip if already exists)
-    const addedItems: EinkaufsItem[] = [];
+    const newItemsPromises: Promise<EinkaufsItem>[] = [];
 
     for (const [name, { menge, einheit }] of zutatMap) {
       const existingItem = existingItems.find(
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
 
       if (!existingItem) {
         const mengeStr = `${menge} ${einheit}`;
-        const item = create<EinkaufsItem>('einkaufsliste', {
+        const promise = create<EinkaufsItem>('einkaufsliste', {
           name: name.charAt(0).toUpperCase() + name.slice(1),
           menge: mengeStr,
           kategorie: 'diese_woche',
@@ -65,9 +65,11 @@ export async function POST(request: NextRequest) {
           done: false,
           created_at: new Date().toISOString(),
         });
-        addedItems.push(item);
+        newItemsPromises.push(promise);
       }
     }
+
+    const addedItems = await Promise.all(newItemsPromises);
 
     return NextResponse.json({
       success: true,

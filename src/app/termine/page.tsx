@@ -5,6 +5,9 @@ import Link from 'next/link';
 import { ChevronLeft, Plus, Calendar, MapPin, Check, Trash2 } from 'lucide-react';
 import type { Termin } from '@/lib/types';
 
+// Hardcoded USER_ID for testing purposes
+const HARDCODED_USER_ID = 'f2476673-e4d0-486f-b9b6-99923c3ba0b6';
+
 export default function TerminePage() {
   const [termine, setTermine] = useState<Termin[]>([]);
   const [loading, setLoading] = useState(true);
@@ -23,7 +26,11 @@ export default function TerminePage() {
 
   const fetchTermine = async () => {
     try {
-      const res = await fetch('/api/termine?upcoming=true');
+      const res = await fetch('/api/termine?upcoming=true', {
+        headers: {
+          'x-user-id': HARDCODED_USER_ID,
+        },
+      });
       const data = await res.json();
       setTermine(data);
     } catch (error) {
@@ -40,7 +47,10 @@ export default function TerminePage() {
     try {
       const res = await fetch('/api/termine', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-user-id': HARDCODED_USER_ID,
+        },
         body: JSON.stringify({
           title: newTermin.title,
           date: newTermin.date,
@@ -54,6 +64,9 @@ export default function TerminePage() {
         setNewTermin({ title: '', date: '', time: '', location: '', notes: '' });
         setShowForm(false);
         fetchTermine();
+      } else {
+        const errorData = await res.json();
+        console.error('Failed to add termin:', errorData);
       }
     } catch (error) {
       console.error('Failed to add termin:', error);
@@ -62,12 +75,20 @@ export default function TerminePage() {
 
   const toggleDone = async (termin: Termin) => {
     try {
-      await fetch('/api/termine', {
+      const res = await fetch('/api/termine', {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-user-id': HARDCODED_USER_ID,
+        },
         body: JSON.stringify({ id: termin.id, done: !termin.done }),
       });
-      fetchTermine();
+      if (res.ok) {
+        fetchTermine();
+      } else {
+        const errorData = await res.json();
+        console.error('Failed to toggle termin:', errorData);
+      }
     } catch (error) {
       console.error('Failed to toggle termin:', error);
     }
@@ -75,8 +96,18 @@ export default function TerminePage() {
 
   const deleteTermin = async (id: number) => {
     try {
-      await fetch(`/api/termine?id=${id}`, { method: 'DELETE' });
-      fetchTermine();
+      const res = await fetch(`/api/termine?id=${id}`, {
+        method: 'DELETE',
+        headers: {
+          'x-user-id': HARDCODED_USER_ID,
+        },
+      });
+      if (res.ok) {
+        fetchTermine();
+      } else {
+        const errorData = await res.json();
+        console.error('Failed to delete termin:', errorData);
+      }
     } catch (error) {
       console.error('Failed to delete termin:', error);
     }

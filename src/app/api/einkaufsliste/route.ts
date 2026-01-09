@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const items = getAll<EinkaufsItem>('einkaufsliste');
+    const items = await getAll<EinkaufsItem>('einkaufsliste');
 
     // Sort by kategorie priority, then done status, then created_at
     const sorted = items.sort((a, b) => {
@@ -32,6 +32,11 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
+    const userId = request.headers.get('x-user-id');
+    if (!userId) {
+      return NextResponse.json({ error: 'User ID header missing' }, { status: 401 });
+    }
+
     const body = await request.json();
     const { name, menge, kategorie, auto_generated } = body;
 
@@ -39,7 +44,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Name required' }, { status: 400 });
     }
 
-    const item = create<EinkaufsItem>('einkaufsliste', {
+    const item = await create<EinkaufsItem>('einkaufsliste', {
+      user_id: userId,
       name,
       menge: menge || null,
       kategorie: kategorie || 'sonstiges',
@@ -57,6 +63,11 @@ export async function POST(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
+    const userId = request.headers.get('x-user-id');
+    if (!userId) {
+      return NextResponse.json({ error: 'User ID header missing' }, { status: 401 });
+    }
+
     const body = await request.json();
     const { id, ...updates } = body;
 
@@ -64,9 +75,9 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: 'Item ID required' }, { status: 400 });
     }
 
-    const item = update<EinkaufsItem>('einkaufsliste', id, updates);
+    const item = await update<EinkaufsItem>('einkaufsliste', id, { ...updates, user_id: userId });
     if (!item) {
-      return NextResponse.json({ error: 'Item not found' }, { status: 404 });
+      return NextResponse.json({ error: 'Item not found or unauthorized' }, { status: 404 });
     }
 
     return NextResponse.json(item);
@@ -78,12 +89,17 @@ export async function PATCH(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
+    const userId = request.headers.get('x-user-id');
+    if (!userId) {
+      return NextResponse.json({ error: 'User ID header missing' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
     const clearDoneItems = searchParams.get('clearDone') === 'true';
 
     if (clearDoneItems) {
-      clearDone('einkaufsliste');
+      await clearDone('einkaufsliste', userId);
       return NextResponse.json({ success: true, message: 'Cleared done items' });
     }
 
@@ -91,9 +107,9 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'Item ID required' }, { status: 400 });
     }
 
-    const success = remove('einkaufsliste', parseInt(id));
+    const success = await remove('einkaufsliste', parseInt(id), userId);
     if (!success) {
-      return NextResponse.json({ error: 'Item not found' }, { status: 404 });
+      return NextResponse.json({ error: 'Item not found or unauthorized' }, { status: 404 });
     }
 
     return NextResponse.json({ success: true });

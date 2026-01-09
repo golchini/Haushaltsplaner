@@ -55,7 +55,7 @@ export interface Mahlzeit {
   date: string; // "2026-01-09"
   typ: 'fruehstueck' | 'mittag' | 'abend';
   beschreibung: string;
-  gericht_id: number | null;
+  rezept_id: number | null;
   done: boolean;
 }
 
