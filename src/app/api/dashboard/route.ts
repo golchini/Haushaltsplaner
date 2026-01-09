@@ -7,12 +7,15 @@ export const dynamic = 'force-dynamic';
 export async function GET() {
   try {
     const today = getToday();
+    console.log('Dashboard: today =', today);
 
     // Get today's tasks
     const allTasks = await getAll<Task>('tasks');
+    console.log('Dashboard: allTasks count =', allTasks.length);
     const tasks = allTasks
       .filter(t => t.date === today)
       .sort((a, b) => (a.scheduled_time || '').localeCompare(b.scheduled_time || ''));
+    console.log('Dashboard: filtered tasks count =', tasks.length);
 
     // Get today's termine
     const allTermine = await getAll<Termin>('termine');
