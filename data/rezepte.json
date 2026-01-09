@@ -1,0 +1,391 @@
+{
+  "items": [
+    {
+      "name": "Fesenjān",
+      "kategorie": "iranisch",
+      "portionen": 6,
+      "zubereitungszeit": 90,
+      "zutaten": [
+        {
+          "name": "Hühnerkeulen",
+          "menge": 6,
+          "einheit": "Stück",
+          "optional": false
+        },
+        {
+          "name": "Walnüsse (gemahlen)",
+          "menge": 200,
+          "einheit": "g",
+          "optional": false
+        },
+        {
+          "name": "Granatapfelsirup",
+          "menge": 4,
+          "einheit": "EL",
+          "optional": false
+        },
+        {
+          "name": "Zwiebeln",
+          "menge": 2,
+          "einheit": "Stück",
+          "optional": false
+        },
+        {
+          "name": "Kurkuma",
+          "menge": 1,
+          "einheit": "TL",
+          "optional": false
+        }
+      ],
+      "anleitung": [
+        "Zwiebeln anbraten bis goldbraun",
+        "Hühnerkeulen anbraten",
+        "Gemahlene Walnüsse dazu, kurz rösten",
+        "Wasser dazu (ca. 500ml)",
+        "Granatapfelsirup, Kurkuma, Salz",
+        "1-1.5h köcheln lassen",
+        "Abschmecken (süß-sauer Balance)"
+      ],
+      "tags": [
+        "iranisch",
+        "meal-prep",
+        "huhn"
+      ],
+      "created_at": "2026-01-09T13:50:03.261Z",
+      "id": 1
+    },
+    {
+      "name": "Ghormeh Sabzi",
+      "kategorie": "iranisch",
+      "portionen": 6,
+      "zubereitungszeit": 120,
+      "zutaten": [
+        {
+          "name": "Lammfleisch",
+          "menge": 500,
+          "einheit": "g",
+          "optional": false
+        },
+        {
+          "name": "Kräutermischung",
+          "menge": 400,
+          "einheit": "g",
+          "optional": false
+        },
+        {
+          "name": "Kidneybohnen",
+          "menge": 1,
+          "einheit": "Dose",
+          "optional": false
+        },
+        {
+          "name": "Getrocknete Limetten",
+          "menge": 4,
+          "einheit": "Stück",
+          "optional": false
+        },
+        {
+          "name": "Zwiebeln",
+          "menge": 2,
+          "einheit": "Stück",
+          "optional": false
+        }
+      ],
+      "anleitung": [
+        "Fleisch mit Zwiebeln und Kurkuma anbraten",
+        "Kräuter separat anbraten",
+        "Alles zusammen mit Wasser köcheln",
+        "Limetten einstechen und dazugeben",
+        "Bohnen dazu, 1.5-2h köcheln"
+      ],
+      "tags": [
+        "iranisch",
+        "meal-prep",
+        "lamm"
+      ],
+      "created_at": "2026-01-09T13:50:03.262Z",
+      "id": 2
+    },
+    {
+      "name": "Bolognese",
+      "kategorie": "italienisch",
+      "portionen": 6,
+      "zubereitungszeit": 180,
+      "zutaten": [
+        {
+          "name": "Hackfleisch",
+          "menge": 500,
+          "einheit": "g",
+          "optional": false
+        },
+        {
+          "name": "Zwiebeln",
+          "menge": 2,
+          "einheit": "Stück",
+          "optional": false
+        },
+        {
+          "name": "Karotten",
+          "menge": 2,
+          "einheit": "Stück",
+          "optional": false
+        },
+        {
+          "name": "Sellerie",
+          "menge": 2,
+          "einheit": "Stangen",
+          "optional": false
+        },
+        {
+          "name": "Tomatenmark",
+          "menge": 2,
+          "einheit": "EL",
+          "optional": false
+        },
+        {
+          "name": "Passierte Tomaten",
+          "menge": 400,
+          "einheit": "ml",
+          "optional": false
+        },
+        {
+          "name": "Rotwein",
+          "menge": 200,
+          "einheit": "ml",
+          "optional": false
+        },
+        {
+          "name": "Milch",
+          "menge": 100,
+          "einheit": "ml",
+          "optional": false
+        }
+      ],
+      "anleitung": [
+        "Soffritto anbraten",
+        "Hackfleisch krümelig braten",
+        "Tomatenmark rösten",
+        "Rotwein ablöschen",
+        "Tomaten + Milch dazu",
+        "Mind. 2h köcheln"
+      ],
+      "tags": [
+        "italienisch",
+        "meal-prep",
+        "pasta"
+      ],
+      "created_at": "2026-01-09T13:50:03.262Z",
+      "id": 3
+    },
+    {
+      "name": "Miso-Suppe",
+      "kategorie": "japanisch",
+      "portionen": 4,
+      "zubereitungszeit": 15,
+      "zutaten": [
+        {
+          "name": "Misopaste",
+          "menge": 2,
+          "einheit": "EL",
+          "optional": false
+        },
+        {
+          "name": "Brühe",
+          "menge": 500,
+          "einheit": "ml",
+          "optional": false
+        },
+        {
+          "name": "Karotten",
+          "menge": 2,
+          "einheit": "Stück",
+          "optional": false
+        },
+        {
+          "name": "Sellerie",
+          "menge": 2,
+          "einheit": "Stangen",
+          "optional": false
+        },
+        {
+          "name": "Tofu",
+          "menge": 200,
+          "einheit": "g",
+          "optional": true
+        }
+      ],
+      "anleitung": [
+        "Gemüse kleinschneiden",
+        "In Brühe kochen (10 Min)",
+        "Vom Herd nehmen",
+        "Misopaste einrühren (nicht kochen!)"
+      ],
+      "tags": [
+        "japanisch",
+        "schnell",
+        "vegetarisch"
+      ],
+      "created_at": "2026-01-09T13:50:03.262Z",
+      "id": 4
+    },
+    {
+      "name": "Pasta Aglio e Olio",
+      "kategorie": "italienisch",
+      "portionen": 2,
+      "zubereitungszeit": 20,
+      "zutaten": [
+        {
+          "name": "Spaghetti",
+          "menge": 200,
+          "einheit": "g",
+          "optional": false
+        },
+        {
+          "name": "Knoblauch",
+          "menge": 6,
+          "einheit": "Zehen",
+          "optional": false
+        },
+        {
+          "name": "Olivenöl",
+          "menge": 80,
+          "einheit": "ml",
+          "optional": false
+        },
+        {
+          "name": "Peperoncino",
+          "menge": 2,
+          "einheit": "Stück",
+          "optional": false
+        },
+        {
+          "name": "Petersilie",
+          "menge": 1,
+          "einheit": "Bund",
+          "optional": false
+        }
+      ],
+      "anleitung": [
+        "Knoblauch in Scheiben schneiden",
+        "In Olivenöl langsam anbraten",
+        "Peperoncino dazu",
+        "Pasta al dente kochen",
+        "Mit Öl und Pastawasser vermengen",
+        "Petersilie dazu"
+      ],
+      "tags": [
+        "italienisch",
+        "schnell",
+        "vegetarisch"
+      ],
+      "created_at": "2026-01-09T13:50:03.262Z",
+      "id": 5
+    },
+    {
+      "name": "Kuku Sabzi",
+      "kategorie": "iranisch",
+      "portionen": 4,
+      "zubereitungszeit": 30,
+      "zutaten": [
+        {
+          "name": "Eier",
+          "menge": 6,
+          "einheit": "Stück",
+          "optional": false
+        },
+        {
+          "name": "Frische Kräuter",
+          "menge": 300,
+          "einheit": "g",
+          "optional": false
+        },
+        {
+          "name": "Walnüsse",
+          "menge": 50,
+          "einheit": "g",
+          "optional": true
+        },
+        {
+          "name": "Berberitzen",
+          "menge": 30,
+          "einheit": "g",
+          "optional": true
+        },
+        {
+          "name": "Kurkuma",
+          "menge": 1,
+          "einheit": "TL",
+          "optional": false
+        }
+      ],
+      "anleitung": [
+        "Kräuter fein hacken",
+        "Mit Eiern mischen",
+        "Kurkuma dazu",
+        "In Pfanne langsam stocken lassen",
+        "Wenden, fertig backen"
+      ],
+      "tags": [
+        "iranisch",
+        "schnell",
+        "vegetarisch"
+      ],
+      "created_at": "2026-01-09T13:50:03.262Z",
+      "id": 6
+    },
+    {
+      "name": "Carbonara",
+      "kategorie": "italienisch",
+      "portionen": 2,
+      "zubereitungszeit": 25,
+      "zutaten": [
+        {
+          "name": "Spaghetti",
+          "menge": 200,
+          "einheit": "g",
+          "optional": false
+        },
+        {
+          "name": "Guanciale",
+          "menge": 150,
+          "einheit": "g",
+          "optional": false
+        },
+        {
+          "name": "Eigelb",
+          "menge": 4,
+          "einheit": "Stück",
+          "optional": false
+        },
+        {
+          "name": "Pecorino",
+          "menge": 80,
+          "einheit": "g",
+          "optional": false
+        },
+        {
+          "name": "Schwarzer Pfeffer",
+          "menge": 1,
+          "einheit": "TL",
+          "optional": false
+        }
+      ],
+      "anleitung": [
+        "Guanciale knusprig braten",
+        "Eigelb + Käse + Pfeffer mischen",
+        "Pasta al dente kochen",
+        "Pasta zu Guanciale, vom Herd",
+        "Ei-Käse-Mischung schnell unterrühren",
+        "Mit Pastawasser cremig machen"
+      ],
+      "tags": [
+        "italienisch",
+        "schnell",
+        "pasta"
+      ],
+      "created_at": "2026-01-09T13:50:03.262Z",
+      "id": 7
+    }
+  ],
+  "lastId": 7
+}

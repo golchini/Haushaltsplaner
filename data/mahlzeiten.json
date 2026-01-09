@@ -1,0 +1,54 @@
+{
+  "items": [
+    {
+      "date": "2026-01-09",
+      "typ": "fruehstueck",
+      "beschreibung": "Müsli + Milch + Banane",
+      "rezept_id": null,
+      "id": 1
+    },
+    {
+      "date": "2026-01-09",
+      "typ": "mittag",
+      "beschreibung": "Miso-Suppe (Rest)",
+      "rezept_id": 4,
+      "id": 2
+    },
+    {
+      "date": "2026-01-09",
+      "typ": "abend",
+      "beschreibung": "Schmortopf (letztes!)",
+      "rezept_id": null,
+      "id": 3
+    },
+    {
+      "date": "2026-01-10",
+      "typ": "abend",
+      "beschreibung": null,
+      "rezept_id": 2,
+      "id": 4
+    },
+    {
+      "date": "2026-01-10",
+      "typ": "mittag",
+      "beschreibung": null,
+      "rezept_id": 6,
+      "id": 5
+    },
+    {
+      "date": "2026-01-11",
+      "typ": "mittag",
+      "beschreibung": null,
+      "rezept_id": 4,
+      "id": 6
+    },
+    {
+      "date": "2026-01-11",
+      "typ": "abend",
+      "beschreibung": null,
+      "rezept_id": 2,
+      "id": 7
+    }
+  ],
+  "lastId": 7
+}

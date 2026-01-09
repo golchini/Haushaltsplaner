@@ -1,0 +1,59 @@
+{
+  "items": [
+    {
+      "name": "Reis",
+      "menge": null,
+      "kategorie": "dringend",
+      "auto_generated": false,
+      "done": false,
+      "created_at": "2026-01-09T13:50:03.263Z",
+      "id": 1
+    },
+    {
+      "name": "Brot",
+      "menge": null,
+      "kategorie": "dringend",
+      "auto_generated": false,
+      "done": false,
+      "created_at": "2026-01-09T13:50:03.263Z",
+      "id": 2
+    },
+    {
+      "name": "Granatapfelsirup (Rob-e Anar)",
+      "menge": null,
+      "kategorie": "diese_woche",
+      "auto_generated": false,
+      "done": false,
+      "created_at": "2026-01-09T13:50:03.263Z",
+      "id": 3
+    },
+    {
+      "name": "Walnüsse (200g)",
+      "menge": null,
+      "kategorie": "diese_woche",
+      "auto_generated": false,
+      "done": false,
+      "created_at": "2026-01-09T13:50:03.263Z",
+      "id": 4
+    },
+    {
+      "name": "Hühnerkeulen (4-6 Stück)",
+      "menge": null,
+      "kategorie": "diese_woche",
+      "auto_generated": false,
+      "done": false,
+      "created_at": "2026-01-09T13:50:03.263Z",
+      "id": 5
+    },
+    {
+      "name": "Destilliertes Wasser",
+      "menge": null,
+      "kategorie": "sonstiges",
+      "auto_generated": false,
+      "done": false,
+      "created_at": "2026-01-09T13:50:03.263Z",
+      "id": 6
+    }
+  ],
+  "lastId": 6
+}

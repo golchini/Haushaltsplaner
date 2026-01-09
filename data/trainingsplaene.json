@@ -1,0 +1,148 @@
+{
+  "items": [
+    {
+      "name": "Push",
+      "tag": "mo",
+      "uebungen": [
+        {
+          "name": "Bankdrücken",
+          "saetze": 4,
+          "wiederholungen": "8-10"
+        },
+        {
+          "name": "Schrägbank Kurzhantel",
+          "saetze": 3,
+          "wiederholungen": "10-12"
+        },
+        {
+          "name": "Schulterdrücken",
+          "saetze": 4,
+          "wiederholungen": "8-10"
+        },
+        {
+          "name": "Seitheben",
+          "saetze": 3,
+          "wiederholungen": "12-15"
+        },
+        {
+          "name": "Dips",
+          "saetze": 3,
+          "wiederholungen": "max"
+        },
+        {
+          "name": "Trizeps Pushdown",
+          "saetze": 3,
+          "wiederholungen": "12-15"
+        }
+      ],
+      "id": 1
+    },
+    {
+      "name": "Pull",
+      "tag": "di",
+      "uebungen": [
+        {
+          "name": "Klimmzüge",
+          "saetze": 4,
+          "wiederholungen": "max"
+        },
+        {
+          "name": "Rudern",
+          "saetze": 4,
+          "wiederholungen": "8-10"
+        },
+        {
+          "name": "Latzug",
+          "saetze": 3,
+          "wiederholungen": "10-12"
+        },
+        {
+          "name": "Face Pulls",
+          "saetze": 3,
+          "wiederholungen": "15"
+        },
+        {
+          "name": "Bizeps Curls",
+          "saetze": 3,
+          "wiederholungen": "10-12"
+        },
+        {
+          "name": "Hammer Curls",
+          "saetze": 3,
+          "wiederholungen": "10-12"
+        }
+      ],
+      "id": 2
+    },
+    {
+      "name": "Legs",
+      "tag": "do",
+      "uebungen": [
+        {
+          "name": "Kniebeugen",
+          "saetze": 4,
+          "wiederholungen": "8-10"
+        },
+        {
+          "name": "Beinpresse",
+          "saetze": 3,
+          "wiederholungen": "10-12"
+        },
+        {
+          "name": "Romanian Deadlift",
+          "saetze": 3,
+          "wiederholungen": "10-12"
+        },
+        {
+          "name": "Beinbeuger",
+          "saetze": 3,
+          "wiederholungen": "12-15"
+        },
+        {
+          "name": "Wadenheben",
+          "saetze": 4,
+          "wiederholungen": "15"
+        },
+        {
+          "name": "Planks",
+          "saetze": 3,
+          "wiederholungen": "60 Sek"
+        }
+      ],
+      "id": 3
+    },
+    {
+      "name": "Upper",
+      "tag": "fr",
+      "uebungen": [
+        {
+          "name": "Bankdrücken (leichter)",
+          "saetze": 3,
+          "wiederholungen": "10"
+        },
+        {
+          "name": "Rudern",
+          "saetze": 3,
+          "wiederholungen": "10"
+        },
+        {
+          "name": "Schulterdrücken",
+          "saetze": 3,
+          "wiederholungen": "10"
+        },
+        {
+          "name": "Klimmzüge",
+          "saetze": 3,
+          "wiederholungen": "max"
+        },
+        {
+          "name": "Bizeps + Trizeps Superset",
+          "saetze": 3,
+          "wiederholungen": "12"
+        }
+      ],
+      "id": 4
+    }
+  ],
+  "lastId": 4
+}

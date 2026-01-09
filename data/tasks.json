@@ -1,0 +1,65 @@
+{
+  "items": [
+    {
+      "title": "Legs Training",
+      "scheduled_time": "18:45",
+      "date": "2026-01-09",
+      "category": "training",
+      "priority": "high",
+      "done": false,
+      "created_at": "2026-01-09T13:50:03.263Z",
+      "id": 1
+    },
+    {
+      "title": "Bettwäsche waschen",
+      "scheduled_time": "17:30",
+      "date": "2026-01-09",
+      "category": "haushalt",
+      "priority": "medium",
+      "done": false,
+      "created_at": "2026-01-09T13:50:03.263Z",
+      "id": 2
+    },
+    {
+      "title": "Müll rausbringen",
+      "scheduled_time": "16:00",
+      "date": "2026-01-09",
+      "category": "haushalt",
+      "priority": "medium",
+      "done": false,
+      "created_at": "2026-01-09T13:50:03.263Z",
+      "id": 3
+    },
+    {
+      "title": "Sauna",
+      "scheduled_time": "20:00",
+      "date": "2026-01-09",
+      "category": "training",
+      "priority": "medium",
+      "done": false,
+      "created_at": "2026-01-09T13:50:03.263Z",
+      "id": 4
+    },
+    {
+      "title": "Wäsche abhängen",
+      "scheduled_time": "17:00",
+      "date": "2026-01-09",
+      "category": "haushalt",
+      "priority": "low",
+      "done": false,
+      "created_at": "2026-01-09T13:50:03.263Z",
+      "id": 5
+    },
+    {
+      "title": "Journaling",
+      "scheduled_time": "22:30",
+      "date": "2026-01-09",
+      "category": "sonstiges",
+      "priority": "low",
+      "done": false,
+      "created_at": "2026-01-09T13:50:03.263Z",
+      "id": 6
+    }
+  ],
+  "lastId": 6
+}
