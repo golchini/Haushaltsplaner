@@ -14,9 +14,7 @@ export const initDb = async () => {
 // --- ERSATZ FÜR DEINE GENERIC CRUD OPERATIONS ---
 
 export async function getAll<T>(storeName: string): Promise<T[]> {
-  console.log(`getAll: querying ${storeName}`);
   const { data, error } = await supabase.from(storeName).select('*');
-  console.log(`getAll: ${storeName} returned ${data?.length ?? 0} items, error:`, error);
   if (error) throw error;
   return data as T[];
 }
